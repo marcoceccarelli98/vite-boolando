@@ -38,8 +38,10 @@ export default {
     calcDiscount(price, discount) {
       return (price - (price * discount) / 100).toFixed(2);
     },
-    likeButton(like) {
-      like = !like;
+    likeButton() {
+      // Call the like-button event on AppMain and pass the name value
+      this.$emit("like-Button", this.name);
+      console.log(this.like);
     },
   },
 };
@@ -58,7 +60,11 @@ export default {
         </span>
         <span class="sus-label" v-show="sustainability"> Sostenibilità </span>
       </div>
-      <div class="hearts-label" @click="likeButton(like)" v-show="like">
+      <div
+        :class="{ liked: this.like }"
+        class="hearts-label"
+        @click="likeButton(like)"
+      >
         &hearts;
       </div>
     </div>
@@ -155,9 +161,33 @@ img {
   font-size: 30px;
   top: 10px;
   right: 0px;
+  &.liked {
+    color: $text-hearts-hover;
+  }
+  // About 2 hour on this and the result not so beuty :')
+  // &:hover {
+  //   color: $text-hearts-hover;
+  // }
+  // &.liked {
+  //   color: $text-hearts-hover;
+  //   &:hover {
+  //     color: $text-hearts;
+  //   }
+  // }
 }
+// .hearts-label:hover {
+//   color: $text-hearts;
+// }
 
-.hearts-label:hover {
-  color: $text-hearts-hover;
-}
+// $like: var(--like);
+
+// @if $like {
+//   .hearts-label {
+//     color: green;
+//   }
+// } @else {
+//   .hearts-label {
+//     color: yellow;
+//   }
+// }
 </style>

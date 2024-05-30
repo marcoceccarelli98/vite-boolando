@@ -3,7 +3,7 @@ import AppCards from "./AppCards.vue";
 export default {
   data() {
     return {
-      objects: [
+      cards: [
         {
           name: "Relaxed Fit Tee Unisex",
           brand: "Levi's",
@@ -22,7 +22,7 @@ export default {
           price: 29.99,
           discount: 30,
           sustainability: false,
-          like: false,
+          like: true,
         },
         {
           name: "Voglia di colori pastello",
@@ -42,7 +42,7 @@ export default {
           price: 29.99,
           discount: 50,
           sustainability: false,
-          like: true,
+          like: false,
         },
         {
           name: "Stripe Bodice",
@@ -68,6 +68,15 @@ export default {
   components: {
     AppCards,
   },
+  methods: {
+    //ObjName is passed from the event like-button in AppCards component
+    toggleLike(objName) {
+      //Find the card that have the same name of the one clicked
+      let toggle = this.cards.find((card) => card.name === objName);
+      //Toggle like key
+      toggle.like = !toggle.like;
+    },
+  },
 };
 </script>
 
@@ -75,17 +84,18 @@ export default {
   <main>
     <div class="container-big">
       <div class="row">
-        <div class="col-33" v-for="object in objects">
+        <div class="col-33" v-for="card in cards">
           <AppCards
-            :name="object.name"
-            :brand="object.brand"
-            :image="object.image"
-            :imageAlt="object.imageAlt"
-            :price="object.price"
-            :discount="object.discount"
-            :sustainability="object.sustainability"
-            :like="object.like"
-          />
+            :name="card.name"
+            :brand="card.brand"
+            :image="card.image"
+            :imageAlt="card.imageAlt"
+            :price="card.price"
+            :discount="card.discount"
+            :sustainability="card.sustainability"
+            :like="card.like"
+            @like-button="toggleLike"
+          /><!-- like-button event is generated on AppCard component -->
         </div>
       </div>
     </div>
