@@ -48,18 +48,11 @@ export default {
 <template>
   <div class="content">
     <!-- IMAGES -->
-    <img class="main-pic" :src="image" alt="img1" />
-    <img class="hover-pic" :src="imageAlt" alt="img1b" />
-    <!-- TEXT -->
-    <div class="text">
-      <div class="brand">{{ brand }}</div>
-      <div class="item">{{ name }}</div>
-      <div class="price">
-        {{ calcDiscount(price, discount) }} &euro;
-        <span class="discount-txt">{{ price }} &euro;</span>
-      </div>
+    <div class="img-content">
+      <img class="main-pic" :src="image" alt="img1" />
+      <img class="hover-pic" :src="imageAlt" alt="img1b" />
       <!-- LABELS -->
-      <div class="labels top-490">
+      <div class="labels">
         <span class="discount-label" v-show="discount">
           {{ `-${discount}%` }}
         </span>
@@ -69,6 +62,15 @@ export default {
         &hearts;
       </div>
     </div>
+    <!-- TEXT -->
+    <div class="text">
+      <div class="brand">{{ brand }}</div>
+      <div class="item">{{ name }}</div>
+      <div class="price">
+        {{ calcDiscount(price, discount) }} &euro;
+        <span class="discount-txt">{{ price }} &euro;</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -76,12 +78,14 @@ export default {
 @import "../styles/partials/variables";
 
 /* IMAGES */
-.content {
-  position: relative;
-}
+// .content {
+// }
 
 img {
   width: 100%;
+}
+.img-content {
+  position: relative;
 }
 
 .hover-pic {
@@ -124,6 +128,7 @@ img {
 
 .labels {
   position: absolute;
+  bottom: 30px;
 }
 
 .discount-label {
