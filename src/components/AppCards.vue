@@ -1,0 +1,151 @@
+<script>
+export default {
+  props: {
+    name: {
+      type: String,
+      required: true,
+    },
+    brand: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    imageAlt: {
+      type: String,
+      required: false,
+    },
+    price: {
+      type: Float32Array,
+      required: true,
+    },
+    discount: {
+      type: Int16Array,
+      required: false,
+    },
+    sustainability: {
+      type: Boolean,
+      required: true,
+    },
+    like: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  methods: {
+    calcDiscount(price, discount) {
+      return (price - (price * discount) / 100).toFixed(2);
+    },
+  },
+};
+</script>
+
+<template>
+  <div class="content">
+    <!-- IMAGES -->
+    <img class="main-pic" :src="image" alt="img1" />
+    <img class="hover-pic" :src="imageAlt" alt="img1b" />
+    <!-- TEXT -->
+    <div class="text">
+      <div class="brand">{{ brand }}</div>
+      <div class="item">{{ name }}</div>
+      <div class="price">
+        {{ calcDiscount(price, discount) }} &euro;
+        <span class="discount-txt">{{ price }} &euro;</span>
+      </div>
+      <!-- LABELS -->
+      <div class="labels top-490">
+        <span class="discount-label"> {{ `-${discount}%` }} </span>
+        <span class="sus-label" v-show="sustainability"> Sostenibilità </span>
+      </div>
+      <div class="hearts-label">&hearts;</div>
+    </div>
+  </div>
+</template>
+
+<style scoped lang="scss">
+@import "../styles/partials/variables";
+
+/* IMAGES */
+.content {
+  position: relative;
+}
+
+img {
+  width: 100%;
+}
+
+.hover-pic {
+  display: none;
+}
+
+.content:hover .main-pic {
+  display: none;
+}
+
+.content:hover .hover-pic {
+  display: inline-block;
+}
+
+/* ----- TEXT ----- */
+.text {
+  padding-bottom: 5px;
+}
+
+.brand {
+  font-size: 15px;
+}
+
+.item {
+  font-weight: 600;
+}
+
+.price {
+  font-size: 15px;
+  font-weight: 600;
+  color: $text-price;
+}
+
+.discount-txt {
+  font-size: 15px;
+  font-weight: 400;
+  color: $text-discounted;
+  text-decoration: line-through;
+}
+
+.labels {
+  position: absolute;
+}
+
+.discount-label {
+  font-size: 15px;
+  background-color: $label-discount;
+  color: $text-discount;
+  font-weight: 600;
+  padding: 5px 12px;
+  margin-right: 5px;
+}
+
+.sus-label {
+  font-size: 15px;
+  background-color: $label-sustainability;
+  color: $text-sustainability;
+  font-weight: 600;
+  padding: 5px 10px;
+}
+
+.hearts-label {
+  position: absolute;
+  background-color: $label-hearts;
+  padding: 2px 10px;
+  font-size: 30px;
+  top: 10px;
+  right: 0px;
+}
+
+.hearts-label:hover {
+  color: $text-hearts-hover;
+}
+</style>
