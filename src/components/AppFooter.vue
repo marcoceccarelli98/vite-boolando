@@ -3,7 +3,7 @@
 <template>
   <footer>
     <div class="container">
-      <div class="row">
+      <div class="row justify-between">
         <div class="col-50">
           <div class="info">
             <h3>Boolando s.r.l.</h3>
@@ -16,11 +16,11 @@
           <div class="social">
             <h4>Trovaci anche su</h4>
             <div class="social-logo">
-              <img src="./img/twitter-square-icon.webp" alt="twitter" />
-              <img src="./img/facebook-square-icon.png" alt="facebook" />
-              <img src="./img/Black_Instagram_icon.svg.png" alt="instagram" />
-              <img src="./img/pinterest-square-512.webp" alt="pinterest" />
-              <img src="./img/youtube-square.png" alt="youtube" />
+              <img src="/img/twitter-square-icon.webp" alt="twitter" />
+              <img src="/img/facebook-square-icon.png" alt="facebook" />
+              <img src="/img/Black_Instagram_icon.svg.png" alt="instagram" />
+              <img src="/img/pinterest-square-512.webp" alt="pinterest" />
+              <img src="/img/youtube-square.png" alt="youtube" />
             </div>
           </div>
         </div>
