@@ -18,11 +18,11 @@ export default {
       required: false,
     },
     price: {
-      type: Float32Array,
+      type: Number,
       required: true,
     },
     discount: {
-      type: Int16Array,
+      type: Number,
       required: false,
     },
     sustainability: {
@@ -37,6 +37,9 @@ export default {
   methods: {
     calcDiscount(price, discount) {
       return (price - (price * discount) / 100).toFixed(2);
+    },
+    likeButton(like) {
+      like = !like;
     },
   },
 };
@@ -57,10 +60,14 @@ export default {
       </div>
       <!-- LABELS -->
       <div class="labels top-490">
-        <span class="discount-label"> {{ `-${discount}%` }} </span>
+        <span class="discount-label" v-show="discount">
+          {{ `-${discount}%` }}
+        </span>
         <span class="sus-label" v-show="sustainability"> Sostenibilità </span>
       </div>
-      <div class="hearts-label">&hearts;</div>
+      <div class="hearts-label" @click="likeButton(like)" v-show="like">
+        &hearts;
+      </div>
     </div>
   </div>
 </template>
