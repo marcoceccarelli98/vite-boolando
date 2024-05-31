@@ -36,7 +36,11 @@ export default {
   },
   methods: {
     calcDiscount(price, discount) {
-      return (price - (price * discount) / 100).toFixed(2);
+      if (discount > 0) {
+        return (price - (price * discount) / 100).toFixed(2);
+      } else {
+        return price;
+      }
     },
     likeButton() {
       // Call the like-button event on AppMain and pass the name value
@@ -74,7 +78,7 @@ export default {
       <div class="item">{{ name }}</div>
       <div class="price">
         {{ calcDiscount(price, discount) }} &euro;
-        <span class="discount-txt">{{ price }} &euro;</span>
+        <span class="discount-txt" v-show="discount">{{ price }} &euro;</span>
       </div>
     </div>
   </div>
@@ -175,19 +179,4 @@ img {
   //   }
   // }
 }
-// .hearts-label:hover {
-//   color: $text-hearts;
-// }
-
-// $like: var(--like);
-
-// @if $like {
-//   .hearts-label {
-//     color: green;
-//   }
-// } @else {
-//   .hearts-label {
-//     color: yellow;
-//   }
-// }
 </style>
