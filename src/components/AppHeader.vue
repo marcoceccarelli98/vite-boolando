@@ -30,7 +30,7 @@
 
 <style scoped lang="scss">
 @use "../styles/main.scss";
-@import "../styles/partials/variables";
+@use "../styles/partials/variables" as *;
 /* HEADER */
 header {
   position: fixed;

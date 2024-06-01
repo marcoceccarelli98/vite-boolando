@@ -1,6 +1,10 @@
 <script>
 export default {
   props: {
+    id: {
+      type: Number,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
@@ -9,11 +13,11 @@ export default {
       type: String,
       required: true,
     },
-    image: {
+    frontImage: {
       type: String,
       required: true,
     },
-    imageAlt: {
+    backImage: {
       type: String,
       required: false,
     },
@@ -21,23 +25,20 @@ export default {
       type: Number,
       required: true,
     },
-    discount: {
-      type: Number,
+    badges: {
+      type: Array,
       required: false,
     },
-    sustainability: {
-      type: Boolean,
-      required: true,
-    },
-    like: {
+    isInFavorites: {
       type: Boolean,
       required: true,
     },
   },
   methods: {
-    calcDiscount(price, discount) {
+    calcOriginalPrice(price, discount) {
+      console.log(discount);
       if (discount > 0) {
-        return (price - (price * discount) / 100).toFixed(2);
+        return (price + (price * discount) / (100 - discount)).toFixed(2);
       } else {
         return price;
       }
@@ -47,6 +48,17 @@ export default {
       this.$emit("like-Button", this.name);
       console.log(this.like);
     },
+    sortedBadges(badges) {
+      return badges.slice().sort((a, b) => {
+        if (a.type === "discount" && b.type !== "discount") {
+          return -1;
+        }
+        if (a.type !== "discount" && b.type === "discount") {
+          return 1;
+        }
+        return 0;
+      });
+    },
   },
 };
 </script>
@@ -55,19 +67,29 @@ export default {
   <div class="content">
     <!-- IMAGES -->
     <div class="img-content">
-      <img class="main-pic" :src="image" alt="img1" />
-      <img class="hover-pic" :src="imageAlt" alt="img1b" />
+      <img class="main-pic" :src="'/img/' + frontImage" :alt="frontImage" />
+      <img class="hover-pic" :src="'/img/' + backImage" :alt="backImage" />
       <!-- LABELS -->
       <div class="labels">
-        <span class="discount-label" v-show="discount">
-          {{ `-${discount}%` }}
+        <span
+          v-for="badge in sortedBadges(badges)"
+          :class="{
+            discountLabel: badge.type === 'discount',
+            susLabel: badge.type === 'tag',
+          }"
+        >
+          {{ badge.value }}
         </span>
-        <span class="sus-label" v-show="sustainability"> Sostenibilità </span>
+
+        <!-- <span class="discount-label" v-show="discount">
+          {{ `-${badges}%` }}
+        </span> -->
+        <!-- <span class="sus-label" v-show="badge"> Sostenibilità </span> -->
       </div>
       <div
-        :class="{ liked: this.like }"
+        :class="{ liked: this.isInFavorites }"
         class="hearts-label"
-        @click="likeButton(like)"
+        @click="likeButton(isInFavorites)"
       >
         &hearts;
       </div>
@@ -77,8 +99,18 @@ export default {
       <div class="brand">{{ brand }}</div>
       <div class="item">{{ name }}</div>
       <div class="price">
-        {{ calcDiscount(price, discount) }} &euro;
-        <span class="discount-txt" v-show="discount">{{ price }} &euro;</span>
+        {{ price }} &euro;
+        <span
+          class="discount-txt"
+          v-show="sortedBadges(badges)[0].type === 'discount'"
+          >{{
+            calcOriginalPrice(
+              price,
+              sortedBadges(badges)[0].value.replace(/[^\d.]/g, "")
+            )
+          }}
+          &euro;</span
+        >
       </div>
     </div>
   </div>
@@ -141,7 +173,7 @@ img {
   bottom: 30px;
 }
 
-.discount-label {
+.discountLabel {
   font-size: 15px;
   background-color: $label-discount;
   color: $text-discount;
@@ -150,7 +182,7 @@ img {
   margin-right: 5px;
 }
 
-.sus-label {
+.susLabel {
   font-size: 15px;
   background-color: $label-sustainability;
   color: $text-sustainability;
